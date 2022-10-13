@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import FirebaseCore
 import FirebaseMessaging
+import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -17,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        aboutRealmMigration()
         
         UIViewController.swizzleMethod()
     
@@ -139,3 +142,89 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 }
 
+extension AppDelegate {
+    
+    func aboutRealmMigration() {
+        
+        //deleteRealmIfMirgrationNeeded: 마이그레이션이 필요한 경우 기존 렘 삭제. 스키마 버전 0부터 삭제
+        //출시할때는 없애고 해야함
+        //Realm studio 닫고 빌드해야함
+        //스키마 버전에는 가장 최신버전 -> 근데 임의로 높은 숫자 넣으면 그 버전으로 바뀜
+        //별도로 설정하지않으면 0부터 1씩 늘어나면서 증가함
+        //중간에 건너뛴 버전을 사용할 순 없음
+        //그래서 따로 만지지않는다면 스키마 버전은 마이그레이션 한 횟수랑 같아질거임
+        //let config = Realm.Configuration(schemaVersion: 4, deleteRealmIfMigrationNeeded: true)
+        
+        //모든 버전에 대한 대응. 차례대로 해야하므로 else if를 사용하면 조건문중에서 하나만 실행하고 나머지 건너뛰므로 마이그레이션과는 맞지않음
+        //컬럼에 들어가는 내용이 없으면 비워도도 괜찮음
+        //스키마 버전 확실히 확인하기
+
+        let config = Realm.Configuration(schemaVersion: 9) { migration, oldSchemaVersion in
+            if oldSchemaVersion < 1 { //어떤 컬럼 추가, 어떤 컬럼 삭제 등 주석으로 남겨도되고, 깃에 대한 커밋으로 남겨도 될듯. 아니면 명시적으로 enumerateObject코드를 이용해서 새로운 컬럼에 nil같이 값을 넣어줄 순 있는데 굳이 그럴필요는 없을듯.
+
+            }
+            if oldSchemaVersion < 2 {
+
+            }
+            if oldSchemaVersion < 3 {
+
+            }
+            if oldSchemaVersion < 4 {
+                
+            }
+            if oldSchemaVersion < 5 {
+                //컬럼의 이름 변경
+                migration.renameProperty(onType: Todo.className(), from: "importance", to: "favorite")
+            }
+            if oldSchemaVersion < 6 {
+                // 두 컬럼을 하나로
+                // 데이터를 넣지 않는다면( 컬럼 단순 추가 삭제의 경우) 별도 코드 필요 x
+                migration.enumerateObjects(ofType: Todo.className()) { oldObject, newObject in
+                    
+                    guard let new = newObject, let old = oldObject else { return }
+                    new["userDescription"] = "하이하이 \(old["title"])는 타이틀, 뻬이보릿은 \(old["favorite"])"
+//                    new["userDescription"] = "초기값" // 기존의 컬럼 데이터를 사용하지않고 직접 초기값 설정 가능
+                    
+                }
+            }
+            if oldSchemaVersion < 7 {
+                //count를 추가하고 초기값으로 100을 넣음. 꼭 old, new 다 써야하는건아님
+                migration.enumerateObjects(ofType: Todo.className()) { _ , newObject in
+                    
+                    guard let new = newObject else { return }
+                    new["count"] = 100
+                    
+                }
+            }
+            if oldSchemaVersion < 8 {
+                migration.enumerateObjects(ofType: Todo.className()) { oldObject, newObject in
+                    guard let new = newObject, let old = oldObject else { return }
+                    
+                    new["favorite"] = old["favorite"] //원래 형변환 필요한데 인트에서 더블이므로 반드시 성공하기때문에 따로 안함. 또한 둘 다 옵셔널이 아니므로 이렇게만 해도 가능
+                    
+                    //이렇게도 가능. 타입캐스팅해야함
+//
+//                    if old["favorite"] < 4 {
+//                        new["favorite"] = 5.5
+//                    }
+                    
+                    //기존의 값인 nil인 경우에는 기본값을 줘야함
+//                    new["favorite"] = old["favorite"] ?? 4.4
+                }
+            }
+            //옵셔널없앰
+            if oldSchemaVersion < 9 {
+                migration.enumerateObjects(ofType: Todo.className()) { oldObject, newObject in
+                    guard let new = newObject, let old = oldObject else { return }
+                    
+                    new["title"] = old["title"]
+                    new["userDescription"] = old["userDescription"]
+                }
+            }
+        }
+
+        Realm.Configuration.defaultConfiguration = config
+
+    }
+    
+}
