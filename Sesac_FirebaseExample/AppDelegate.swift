@@ -19,7 +19,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        aboutRealmMigration()
+        let config = Realm.Configuration(schemaVersion: 3) { migration, oldSchemaVersion in
+            
+            if oldSchemaVersion < 1 {
+                //DetailTodo, List 추가
+            }
+            if oldSchemaVersion < 2 {
+                //EmbeddedObject 추가
+            }
+            if oldSchemaVersion < 3 {
+                //DetailTodo deadline컬럼 추가
+            }
+        }
+        
+        Realm.Configuration.defaultConfiguration = config
+        
+        //aboutRealmMigration()
         
         UIViewController.swizzleMethod()
     
