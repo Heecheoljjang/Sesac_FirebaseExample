@@ -17,6 +17,7 @@
 		97A0B6C428F6476B00A42BD0 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 97A0B6C328F6476B00A42BD0 /* FirebaseCrashlytics */; };
 		97A0B6C628F6476B00A42BD0 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 97A0B6C528F6476B00A42BD0 /* FirebaseMessaging */; };
 		97A0B6C928F6535C00A42BD0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 97A0B6C828F6535C00A42BD0 /* GoogleService-Info.plist */; };
+		97CD326928FE4DAF0087A07E /* SampleCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CD326828FE4DAF0087A07E /* SampleCollectionViewController.swift */; };
 		97F045D328F793F8004BD7E4 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 97F045D228F793F8004BD7E4 /* Realm */; };
 		97F045D528F793F8004BD7E4 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 97F045D428F793F8004BD7E4 /* RealmSwift */; };
 		97F045D728F799FC004BD7E4 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F045D628F799FC004BD7E4 /* Todo.swift */; };
@@ -34,6 +35,7 @@
 		97992FEC28ED163A00FF671F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97A0B6C728F64C3A00A42BD0 /* Sesac_FirebaseExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sesac_FirebaseExample.entitlements; sourceTree = "<group>"; };
 		97A0B6C828F6535C00A42BD0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		97CD326828FE4DAF0087A07E /* SampleCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleCollectionViewController.swift; sourceTree = "<group>"; };
 		97F045D628F799FC004BD7E4 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		97F045D828F79B9D004BD7E4 /* MigrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,6 +86,7 @@
 				97A0B6C828F6535C00A42BD0 /* GoogleService-Info.plist */,
 				97F045D628F799FC004BD7E4 /* Todo.swift */,
 				97F045D828F79B9D004BD7E4 /* MigrationViewController.swift */,
+				97CD326828FE4DAF0087A07E /* SampleCollectionViewController.swift */,
 			);
 			path = Sesac_FirebaseExample;
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 				97992FDF28ED163900FF671F /* AppDelegate.swift in Sources */,
 				97F045D928F79B9D004BD7E4 /* MigrationViewController.swift in Sources */,
 				97992FE128ED163900FF671F /* SceneDelegate.swift in Sources */,
+				97CD326928FE4DAF0087A07E /* SampleCollectionViewController.swift in Sources */,
 				97F045D728F799FC004BD7E4 /* Todo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
